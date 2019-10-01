@@ -10,6 +10,7 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.paths.PathMappingAdjuster;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -20,15 +21,21 @@ public class SwaggerConfig {
     public Docket api() { 
         return new Docket(DocumentationType.SWAGGER_2)  
           .select()                                  
-          .apis(RequestHandlerSelectors.basePackage("agk.bootsecurity.controller"))              
-          .paths(PathSelectors.ant("/api/public/*"))                          
-          .build().apiInfo(apiInfo());                                           
+          .apis(RequestHandlerSelectors.basePackage("agk.bootsecurity"))              
+          .paths(PathSelectors.regex("/.*"))
+          .build()
+          .apiInfo(apiInfo());
+          /*.apis(RequestHandlerSelectors.any())
+          .paths(PathSelectors.any())
+          .build()
+          .pathMapping("/*")
+          .apiInfo(apiInfo());    */                                       
     }
     private ApiInfo apiInfo() {
         return new ApiInfo(
-          "My REST API", 
-          "Custom description of API.", 
-          "API TOS", 
+          "Demo REST API", 
+          "Demo API's", 
+          "API for demonstration", 
           "Terms of service", 
           new Contact("Anand K", "anandkadekar12@gmail.com", "anandkadekar123@gmail.com"), 
           "License of API", "API license URL", Collections.emptyList());

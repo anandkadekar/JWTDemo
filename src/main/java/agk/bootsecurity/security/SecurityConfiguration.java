@@ -42,14 +42,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(),  this.userRepository))
                 .authorizeRequests()
                 // configure access rules
-                .antMatchers("/v2/api-docs",
+                .antMatchers("/h2/**","/h2/login.do/**","/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
                         "/configuration/security",
                         "/swagger-ui.html",
-                        "/webjars/**").permitAll()
-                .antMatchers(HttpMethod.GET,"spring-security-rest").permitAll()
+                        "/webjars/**","/h2-console","/console").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/public/register").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers("/api/public/ChangePassword").hasRole("USER")
                 .antMatchers("/api/public/management/*").hasRole("MANAGER")
                 .antMatchers("/api/public/admin/*").hasRole("ADMIN")
                 .anyRequest().authenticated();
